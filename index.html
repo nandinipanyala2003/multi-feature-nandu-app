@@ -1,189 +1,178 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Nandu App Simulation</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nandu App - Full Version</title>
 
-<style>
-    body {
-        font-family: monospace;
-        background: black;
-        color: #00ffcc;
-        padding: 20px;
-    }
+    <script src="https://cdn.jsdelivr.net/npm/brython@3/brython.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/brython@3/brython_stdlib.js"></script>
 
-    h1 {
-        text-align: center;
-        color: #38bdf8;
-    }
+    <style>
+        body {
+            font-family: Arial;
+            background: #0f172a;
+            color: white;
+            text-align: center;
+        }
 
-    .menu button {
-        margin: 5px;
-        padding: 10px;
-        background: #1e293b;
-        color: white;
-        border: none;
-        cursor: pointer;
-    }
+        button {
+            padding: 10px;
+            margin: 5px;
+            background: #38bdf8;
+            border: none;
+            cursor: pointer;
+        }
 
-    .menu button:hover {
-        background: #38bdf8;
-        color: black;
-    }
+        .box {
+            margin: 20px;
+            padding: 20px;
+            background: #1e293b;
+            border-radius: 10px;
+        }
+    </style>
+</head>
 
-    .terminal {
-        margin-top: 20px;
-        padding: 20px;
-        background: #000;
-        border: 1px solid #00ffcc;
-        min-height: 300px;
-        white-space: pre-line;
-    }
-</style>
+<body onload="brython()">
+
+<h1>🎉 Multi-feature Nandu App</h1>
+
+<div>
+    <button onclick="show('groceries')">🛒 Groceries</button>
+    <button onclick="show('food')">🍕 Food</button>
+    <button onclick="show('money')">💰 Money</button>
+    <button onclick="show('bill')">💳 Bills</button>
+    <button onclick="show('movies')">🎬 Movies</button>
+    <button onclick="show('songs')">🎵 Songs</button>
+</div>
+
+<div id="app" class="box"></div>
 
 <script>
-function groceriesFlow() {
-document.getElementById("screen").innerText = `
-🛒 Groceries Shopping Started!
-
-➡️ Categories:
-1. Dresses
-2. Saree
-3. Jewellery
-4. House Products
-5. Electronic Gadgets
-
-➡️ User selects: Dresses
-
-👗 Available types:
-Casual, Formal, Party Wear, Embroidery, Ghagra Choli
-
-➡️ User selects: Party Wear
-
-🌈 Available colors:
-Red, Blue, Green, Yellow, Black
-
-➡️ User selects: Red
-
-📝 Enter item name: Red Party Dress
-💰 Price: Rs 1200
-
-✅ Added: Red Party Dress (Dresses, Type: Party Wear, Color: Red)
-
-➡️ More items can be added...
-➡️ Finally bill generated:
-
-1. Red Party Dress - Rs 1200
-
-✅ Total: Rs 1200
-`;
-}
-
-function foodFlow() {
-document.getElementById("screen").innerText = `
-🍕 Food Ordering Started!
-
-Menu:
-1. Pizza - Rs 150
-2. Burger - Rs 100
-3. Samosa - Rs 30
-
-➡️ User selects: Pizza
-📦 Quantity: 2
-
-✅ Added 2 x Pizza
-
-➡️ Final Bill:
-
-Pizza x 2 = Rs 300
-
-✅ Total: Rs 300
-`;
-}
-
-function moneyFlow() {
-document.getElementById("screen").innerText = `
-💰 Money Transfer
-
-💵 Amount: Rs 500
-👤 Recipient: user123
-✍️ Sender: Nandini
-🔐 PIN: ****
-
-✅ Transfer Successful!
-
-⏰ Date & Time:
-2026-03-28 12:30:00
-`;
-}
-
-function billFlow() {
-document.getElementById("screen").innerText = `
-💳 Bill Payment
-
-Platforms:
-1. PhonePe
-2. Paytm
-3. Google Pay
-
-➡️ Selected: PhonePe
-
-💰 Amount: Rs 800
-📋 Biller ID: EB12345
-
-🔐 PIN Entered
-
-✅ Payment Successful!
-`;
-}
-
-function moviesFlow() {
-document.getElementById("screen").innerText = `
-🎬 Latest Movies:
-
-1. Kalki 2898AD
-2. Salaar
-3. Devara
-4. Guntur Karam
-`;
-}
-
-function songsFlow() {
-document.getElementById("screen").innerText = `
-🎵 Latest Songs:
-
-1. Peelings - Pushpa 2
-2. Ayudha Pooja - Devara
-3. Nenu Nuvvantu - Orange
-`;
+function show(type) {
+    document.getElementById("app").innerHTML = `<div id="${type}"></div>`;
 }
 </script>
 
-</head>
+<script type="text/python">
+from browser import document, html
+import datetime
 
-<body>
+total = 0
+food_total = 0
 
-<h1>🎉 Multi-feature Nandu App (Simulation)</h1>
+def show_groceries():
+    box = html.DIV()
 
-<div class="menu">
-    <button onclick="groceriesFlow()">🛒 Groceries</button>
-    <button onclick="foodFlow()">🍕 Food</button>
-    <button onclick="moneyFlow()">💰 Money</button>
-    <button onclick="billFlow()">💳 Bills</button>
-    <button onclick="moviesFlow()">🎬 Movies</button>
-    <button onclick="songsFlow()">🎵 Songs</button>
-</div>
+    item = html.INPUT(placeholder="Item")
+    price = html.INPUT(type="number", placeholder="Price")
+    btn = html.BUTTON("Add")
 
-<div id="screen" class="terminal">
-👉 Click any feature to see how Python app works
-</div>
+    list_box = html.UL()
+    total_text = html.H3("Total: ₹0")
 
-<br>
+    def add(ev):
+        global total
+        if item.value and price.value:
+            p = float(price.value)
+            total += p
+            list_box <= html.LI(f"{item.value} - ₹{p}")
+            total_text.text = f"Total: ₹{total}"
 
-<a href="https://github.com/nandinipanyala2003/multi-feature-nandu-app" target="_blank">
-    <button>🚀 View GitHub Repo</button>
-</a>
+    btn.bind("click", add)
+
+    box <= item + price + btn + list_box + total_text
+    document["app"].clear()
+    document["app"] <= box
+
+def show_food():
+    box = html.DIV()
+
+    item = html.INPUT(placeholder="Food item")
+    qty = html.INPUT(type="number", placeholder="Qty")
+    btn = html.BUTTON("Order")
+
+    list_box = html.UL()
+    total_text = html.H3("Total: ₹0")
+
+    def order(ev):
+        global food_total
+        if item.value and qty.value:
+            q = int(qty.value)
+            price = 100 * q
+            food_total += price
+            list_box <= html.LI(f"{item.value} x {q} = ₹{price}")
+            total_text.text = f"Total: ₹{food_total}"
+
+    btn.bind("click", order)
+
+    box <= item + qty + btn + list_box + total_text
+    document["app"].clear()
+    document["app"] <= box
+
+def show_money():
+    box = html.DIV()
+
+    amt = html.INPUT(type="number", placeholder="Amount")
+    name = html.INPUT(placeholder="Sender")
+    btn = html.BUTTON("Transfer")
+
+    result = html.P()
+
+    def transfer(ev):
+        if amt.value and name.value:
+            now = datetime.datetime.now()
+            result.text = f"₹{amt.value} transferred by {name.value} at {now}"
+
+    btn.bind("click", transfer)
+
+    box <= amt + name + btn + result
+    document["app"].clear()
+    document["app"] <= box
+
+def show_bill():
+    box = html.DIV()
+
+    amt = html.INPUT(type="number", placeholder="Bill amount")
+    btn = html.BUTTON("Pay")
+
+    result = html.P()
+
+    def pay(ev):
+        if amt.value:
+            result.text = f"Bill ₹{amt.value} paid successfully!"
+
+    btn.bind("click", pay)
+
+    box <= amt + btn + result
+    document["app"].clear()
+    document["app"] <= box
+
+def show_movies():
+    document["app"].clear()
+    document["app"] <= html.UL([
+        html.LI("Kalki 2898AD"),
+        html.LI("Salaar"),
+        html.LI("Devara")
+    ])
+
+def show_songs():
+    document["app"].clear()
+    document["app"] <= html.UL([
+        html.LI("Peelings"),
+        html.LI("Ayudha Pooja"),
+        html.LI("Nenu Nuvvantu")
+    ])
+
+# mapping
+def bind_buttons():
+    document.select("button")[0].bind("click", lambda ev: show_groceries())
+    document.select("button")[1].bind("click", lambda ev: show_food())
+    document.select("button")[2].bind("click", lambda ev: show_money())
+    document.select("button")[3].bind("click", lambda ev: show_bill())
+    document.select("button")[4].bind("click", lambda ev: show_movies())
+    document.select("button")[5].bind("click", lambda ev: show_songs())
+
+bind_buttons()
+</script>
 
 </body>
 </html>
