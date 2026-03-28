@@ -10,7 +10,6 @@ body {
     background: linear-gradient(135deg, #2c3e50, #4ca1af);
     color: white;
     text-align: center;
-
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -23,6 +22,7 @@ h1 {
 .menu {
     background: rgba(0,0,0,0.5);
     padding: 10px;
+    border-radius: 10px;
 }
 
 .menu button {
@@ -33,6 +33,7 @@ h1 {
     color: black;
     cursor: pointer;
     border-radius: 8px;
+    transition: 0.3s;
 }
 
 .menu button:hover {
@@ -45,6 +46,7 @@ h1 {
     margin: 20px auto;
     width: 380px;
     border-radius: 12px;
+    min-height: 150px;
 }
 
 #app {
@@ -54,10 +56,20 @@ h1 {
 input, select {
     padding: 8px;
     margin: 6px;
+    border-radius: 6px;
+    border: none;
 }
 
 ul {
     text-align: left;
+}
+
+footer {
+    padding: 15px;
+    background: rgba(0,0,0,0.7);
+    color: #ccc;
+    font-size: 14px;
+    margin-top: auto;
 }
 </style>
 </head>
@@ -82,18 +94,17 @@ ul {
 </div>
 
 <script>
-
 let gTotal = 0;
 let fTotal = 0;
 
-// GROCERIES DATA
+// ===== GROCERIES DATA =====
 const groceryData = {
     "Dresses": ["Casual", "Formal", "Party Wear"],
     "Saree": ["Silk", "Cotton", "Chiffon"],
     "Electronics": ["iPhone", "Samsung", "Laptop"]
 };
 
-// FOOD DATA
+// ===== FOOD DATA =====
 const foodMenu = {
     "Pizza": 150,
     "Burger": 100,
@@ -107,22 +118,16 @@ const foodMenu = {
 function showGroceries() {
 document.getElementById("app").innerHTML = `
 <h2>🛒 Groceries</h2>
-
 <select id="cat" onchange="loadItems()">
 <option>Select Category</option>
 <option>Dresses</option>
 <option>Saree</option>
 <option>Electronics</option>
 </select>
-
 <select id="item"></select>
-
 <input type="number" id="price" placeholder="Enter Price">
-
 <button onclick="addGrocery()">Add Item</button>
-
 <ul id="gList"></ul>
-
 <h3>Total: ₹<span id="gTotal">0</span></h3>
 `;
 }
@@ -130,29 +135,26 @@ document.getElementById("app").innerHTML = `
 function loadItems() {
 let cat = document.getElementById("cat").value;
 let item = document.getElementById("item");
-
 item.innerHTML = "";
-
-groceryData[cat].forEach(i => {
-let opt = document.createElement("option");
-opt.text = i;
-item.add(opt);
-});
+if(groceryData[cat]) {
+    groceryData[cat].forEach(i => {
+        let opt = document.createElement("option");
+        opt.text = i;
+        item.add(opt);
+    });
+}
 }
 
 function addGrocery() {
 let item = document.getElementById("item").value;
 let price = parseFloat(document.getElementById("price").value);
-
 if (!item || isNaN(price)) {
-alert("Enter valid details");
-return;
+    alert("Enter valid details");
+    return;
 }
-
 let li = document.createElement("li");
 li.innerText = `${item} - ₹${price}`;
 document.getElementById("gList").appendChild(li);
-
 gTotal += price;
 document.getElementById("gTotal").innerText = gTotal;
 }
@@ -161,56 +163,43 @@ document.getElementById("gTotal").innerText = gTotal;
 function showFood() {
 document.getElementById("app").innerHTML = `
 <h2>🍕 Food Ordering</h2>
-
 <select id="fitem"></select>
-
 <input type="number" id="qty" placeholder="Quantity">
-
 <button onclick="addFood()">Order</button>
-
 <ul id="fList"></ul>
-
 <h3>Total: ₹<span id="fTotal">0</span></h3>
 `;
 
 let dropdown = document.getElementById("fitem");
-
 for (let item in foodMenu) {
-let opt = document.createElement("option");
-opt.text = `${item} - ₹${foodMenu[item]}`;
-opt.value = item;
-dropdown.add(opt);
+    let opt = document.createElement("option");
+    opt.text = `${item} - ₹${foodMenu[item]}`;
+    opt.value = item;
+    dropdown.add(opt);
 }
 }
 
 function addFood() {
 let item = document.getElementById("fitem").value;
 let qty = parseInt(document.getElementById("qty").value);
-
 if (!qty || qty <= 0) {
-alert("Enter valid quantity");
-return;
+    alert("Enter valid quantity");
+    return;
 }
-
 let price = foodMenu[item] * qty;
-
 let li = document.createElement("li");
 li.innerText = `${item} x ${qty} = ₹${price}`;
 document.getElementById("fList").appendChild(li);
-
 fTotal += price;
 document.getElementById("fTotal").innerText = fTotal;
 }
 
 // ================= BILLS =================
 function showGBill() {
-document.getElementById("app").innerHTML =
-`<h2>🛒 Groceries Total: ₹${gTotal}</h2>`;
+document.getElementById("app").innerHTML = `<h2>🛒 Groceries Total: ₹${gTotal}</h2>`;
 }
-
 function showFBill() {
-document.getElementById("app").innerHTML =
-`<h2>🍕 Food Total: ₹${fTotal}</h2>`;
+document.getElementById("app").innerHTML = `<h2>🍕 Food Total: ₹${fTotal}</h2>`;
 }
 
 // ================= TRANSFER =================
@@ -220,24 +209,18 @@ document.getElementById("app").innerHTML = `
 <input id="amt" placeholder="Amount">
 <input id="name" placeholder="Sender Name">
 <input id="pin" placeholder="PIN">
-
 <button onclick="transfer()">Send</button>
-
 <p id="result"></p>
 `;
 }
-
 function transfer() {
 let amt = document.getElementById("amt").value;
 let name = document.getElementById("name").value;
 let pin = document.getElementById("pin").value;
-
 if (pin === "9966") {
-document.getElementById("result").innerText =
-`₹${amt} transferred by ${name} at ${new Date()}`;
+    document.getElementById("result").innerText = `₹${amt} transferred by ${name} at ${new Date()}`;
 } else {
-document.getElementById("result").innerText =
-"❌ Incorrect PIN";
+    document.getElementById("result").innerText = "❌ Incorrect PIN";
 }
 }
 
@@ -245,32 +228,24 @@ document.getElementById("result").innerText =
 function showPayments() {
 document.getElementById("app").innerHTML = `
 <h2>💳 Bill Payments</h2>
-
 <select id="appPay">
 <option>PhonePe</option>
 <option>Paytm</option>
 <option>Google Pay</option>
 </select>
-
 <input id="billAmt" placeholder="Amount">
 <input id="pin2" placeholder="PIN">
-
 <button onclick="payBill()">Pay</button>
-
 <p id="payRes"></p>
 `;
 }
-
 function payBill() {
 let amt = document.getElementById("billAmt").value;
 let pin = document.getElementById("pin2").value;
-
 if (pin === "9966") {
-document.getElementById("payRes").innerText =
-`₹${amt} Paid Successfully at ${new Date()}`;
+    document.getElementById("payRes").innerText = `₹${amt} Paid Successfully at ${new Date()}`;
 } else {
-document.getElementById("payRes").innerText =
-"❌ Wrong PIN";
+    document.getElementById("payRes").innerText = "❌ Wrong PIN";
 }
 }
 
@@ -306,16 +281,10 @@ document.getElementById("app").innerHTML = `
 </ul>
 `;
 }
-
 </script>
 
-<footer style="
-    padding: 15px;
-    background: rgba(0,0,0,0.7);
-    color: #ccc;
-    font-size: 14px;
-">
-    🚀 © 2026 All Rights Reserved to <b>Nandini Panyala</b>
+<footer>
+🚀 © 2026 All Rights Reserved to <b>Nandini Panyala</b>
 </footer>
 
 </body>
