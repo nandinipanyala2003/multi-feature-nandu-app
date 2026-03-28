@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Multi-feature Nandu App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: white;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        header h1 {
+            font-size: 36px;
+            color: #38bdf8;
+        }
+
+        header p {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #cbd5f5;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.4);
+        }
+
+        .card h2 {
+            margin-bottom: 15px;
+            color: #facc15;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .feature-box {
+            background: #334155;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .feature-box:hover {
+            transform: scale(1.05);
+            background: #475569;
+        }
+
+        pre {
+            background: black;
+            padding: 15px;
+            border-radius: 10px;
+            color: #00ffcc;
+            overflow-x: auto;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            margin-top: 15px;
+            background: #38bdf8;
+            color: black;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #0ea5e9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #1e293b;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🎉 Multi-feature Nandu App</h1>
+    <p>All-in-one Python CLI Application 🚀</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>🚀 About Project</h2>
+        <p>
+            This is a powerful Python-based command-line application that combines 
+            groceries shopping, food ordering, bill payments, money transfer, movies, and songs
+            into one single application.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>🔥 Features</h2>
+        <div class="features">
+            <div class="feature-box">🛒 Groceries Billing</div>
+            <div class="feature-box">🍕 Food Ordering</div>
+            <div class="feature-box">💰 Money Transfer</div>
+            <div class="feature-box">💳 Bill Payments</div>
+            <div class="feature-box">🎬 Latest Movies</div>
+            <div class="feature-box">🎵 Latest Songs</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🛠️ Tech Stack</h2>
+        <p>Python 3 (CLI Based Application)</p>
+    </div>
+
+    <div class="card">
+        <h2>▶️ How to Run</h2>
+        <pre>
+python main.py
+        </pre>
+    </div>
+
+    <div class="card" style="text-align:center;">
+        <h2>📂 View Source Code</h2>
+        <a href="https://github.com/nandinipanyala2003/multi-feature-nandu-app" target="_blank" class="btn">
+            🚀 View on GitHub
+        </a>
+    </div>
+
+</div>
+
+<footer>
+    <p>Made with ❤️ by Nandini</p>
+</footer>
+
+</body>
+</html>
