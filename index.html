@@ -7,7 +7,7 @@
 <style>
 body {
     font-family: Arial;
-    background: linear-gradient(135deg, #1d2671, #c33764);
+    background: linear-gradient(135deg, #2c3e50, #4ca1af);
     color: white;
     text-align: center;
 }
@@ -16,8 +16,13 @@ h1 {
     margin-top: 20px;
 }
 
+.menu {
+    background: rgba(0,0,0,0.5);
+    padding: 10px;
+}
+
 .menu button {
-    padding: 10px 15px;
+    padding: 10px;
     margin: 5px;
     border: none;
     background: #00c6ff;
@@ -26,15 +31,19 @@ h1 {
     border-radius: 8px;
 }
 
+.menu button:hover {
+    background: #00ffcc;
+}
+
 .box {
     background: rgba(0,0,0,0.4);
     padding: 20px;
     margin: 20px auto;
-    width: 350px;
+    width: 380px;
     border-radius: 12px;
 }
 
-select, input, button {
+input, select {
     padding: 8px;
     margin: 6px;
 }
@@ -47,167 +56,240 @@ ul {
 
 <body>
 
-<h1>🎉 Nandu Smart Multi App</h1>
+<h1>🎉 Multi-feature Nandu App</h1>
 
 <div class="menu">
-    <button onclick="show('groceries')">🛒 Groceries</button>
-    <button onclick="show('food')">🍕 Food</button>
-    <button onclick="showBill()">💰 Groceries Bill</button>
-    <button onclick="showFoodBill()">🍔 Food Bill</button>
-    <button onclick="show('money')">💸 Transfer</button>
-    <button onclick="show('bill')">💳 Payments</button>
+    <button onclick="showGroceries()">🛒 Groceries</button>
+    <button onclick="showFood()">🍕 Food</button>
+    <button onclick="showGBill()">💰 Groceries Bill</button>
+    <button onclick="showFBill()">🍔 Food Bill</button>
+    <button onclick="showTransfer()">💸 Transfer</button>
+    <button onclick="showPayments()">💳 Payments</button>
     <button onclick="showMovies()">🎬 Movies</button>
     <button onclick="showSongs()">🎵 Songs</button>
 </div>
 
-<div id="app" class="box"></div>
+<div id="app" class="box">
+👉 Select any option above
+</div>
 
 <script>
 
 let gTotal = 0;
 let fTotal = 0;
 
+// GROCERIES DATA
 const groceryData = {
-    Dresses: ["Casual", "Party Wear"],
-    Saree: ["Silk", "Cotton"],
-    Electronics: ["iPhone", "Laptop"]
+    "Dresses": ["Casual", "Formal", "Party Wear"],
+    "Saree": ["Silk", "Cotton", "Chiffon"],
+    "Electronics": ["iPhone", "Samsung", "Laptop"]
 };
 
-function show(type) {
+// FOOD DATA
+const foodMenu = {
+    "Pizza": 150,
+    "Burger": 100,
+    "Samosa": 30,
+    "Tea": 10,
+    "Ice Cream (Vanilla)": 60,
+    "Ice Cream (Chocolate)": 70
+};
 
-    if (type === "groceries") {
-        document.getElementById("app").innerHTML = `
-        <h2>🛒 Groceries</h2>
-        <select id="cat" onchange="loadItems()">
-            <option>Select Category</option>
-            <option>Dresses</option>
-            <option>Saree</option>
-            <option>Electronics</option>
-        </select>
+// ================= GROCERIES =================
+function showGroceries() {
+document.getElementById("app").innerHTML = `
+<h2>🛒 Groceries</h2>
 
-        <select id="item"></select>
-        <input type="number" id="price" placeholder="Price">
-        <button onclick="addGrocery()">Add</button>
+<select id="cat" onchange="loadItems()">
+<option>Select Category</option>
+<option>Dresses</option>
+<option>Saree</option>
+<option>Electronics</option>
+</select>
 
-        <ul id="gList"></ul>
-        <h3>Total: ₹<span id="gTotal">0</span></h3>
-        `;
-    }
+<select id="item"></select>
 
-    if (type === "food") {
-        document.getElementById("app").innerHTML = `
-        <h2>🍕 Food</h2>
-        <select id="foodItem">
-            <option>Pizza</option>
-            <option>Burger</option>
-            <option>Samosa</option>
-        </select>
-        <input type="number" id="qty" placeholder="Qty">
-        <button onclick="addFood()">Order</button>
+<input type="number" id="price" placeholder="Enter Price">
 
-        <ul id="fList"></ul>
-        <h3>Total: ₹<span id="fTotal">0</span></h3>
-        `;
-    }
+<button onclick="addGrocery()">Add Item</button>
 
-    if (type === "money") {
-        document.getElementById("app").innerHTML = `
-        <h2>💰 Transfer Money</h2>
-        <input id="amt" placeholder="Amount">
-        <input id="name" placeholder="Sender Name">
-        <button onclick="transfer()">Send</button>
-        <p id="res"></p>
-        `;
-    }
+<ul id="gList"></ul>
 
-    if (type === "bill") {
-        document.getElementById("app").innerHTML = `
-        <h2>💳 Bill Payment</h2>
-        <input id="billAmt" placeholder="Amount">
-        <button onclick="payBill()">Pay</button>
-        <p id="billRes"></p>
-        `;
-    }
+<h3>Total: ₹<span id="gTotal">0</span></h3>
+`;
 }
 
 function loadItems() {
-    let cat = document.getElementById("cat").value;
-    let item = document.getElementById("item");
+let cat = document.getElementById("cat").value;
+let item = document.getElementById("item");
 
-    item.innerHTML = "";
-    groceryData[cat].forEach(i => {
-        let opt = document.createElement("option");
-        opt.text = i;
-        item.add(opt);
-    });
+item.innerHTML = "";
+
+groceryData[cat].forEach(i => {
+let opt = document.createElement("option");
+opt.text = i;
+item.add(opt);
+});
 }
 
 function addGrocery() {
-    let item = document.getElementById("item").value;
-    let price = parseFloat(document.getElementById("price").value);
+let item = document.getElementById("item").value;
+let price = parseFloat(document.getElementById("price").value);
 
-    let li = document.createElement("li");
-    li.innerText = `${item} - ₹${price}`;
-    document.getElementById("gList").appendChild(li);
+if (!item || isNaN(price)) {
+alert("Enter valid details");
+return;
+}
 
-    gTotal += price;
-    document.getElementById("gTotal").innerText = gTotal;
+let li = document.createElement("li");
+li.innerText = `${item} - ₹${price}`;
+document.getElementById("gList").appendChild(li);
+
+gTotal += price;
+document.getElementById("gTotal").innerText = gTotal;
+}
+
+// ================= FOOD =================
+function showFood() {
+document.getElementById("app").innerHTML = `
+<h2>🍕 Food Ordering</h2>
+
+<select id="fitem"></select>
+
+<input type="number" id="qty" placeholder="Quantity">
+
+<button onclick="addFood()">Order</button>
+
+<ul id="fList"></ul>
+
+<h3>Total: ₹<span id="fTotal">0</span></h3>
+`;
+
+let dropdown = document.getElementById("fitem");
+
+for (let item in foodMenu) {
+let opt = document.createElement("option");
+opt.text = `${item} - ₹${foodMenu[item]}`;
+opt.value = item;
+dropdown.add(opt);
+}
 }
 
 function addFood() {
-    let item = document.getElementById("foodItem").value;
-    let qty = parseInt(document.getElementById("qty").value);
-    let price = qty * 100;
+let item = document.getElementById("fitem").value;
+let qty = parseInt(document.getElementById("qty").value);
 
-    let li = document.createElement("li");
-    li.innerText = `${item} x ${qty} = ₹${price}`;
-    document.getElementById("fList").appendChild(li);
-
-    fTotal += price;
-    document.getElementById("fTotal").innerText = fTotal;
+if (!qty || qty <= 0) {
+alert("Enter valid quantity");
+return;
 }
 
-function showBill() {
-    document.getElementById("app").innerHTML = `<h2>🛒 Total Groceries: ₹${gTotal}</h2>`;
+let price = foodMenu[item] * qty;
+
+let li = document.createElement("li");
+li.innerText = `${item} x ${qty} = ₹${price}`;
+document.getElementById("fList").appendChild(li);
+
+fTotal += price;
+document.getElementById("fTotal").innerText = fTotal;
 }
 
-function showFoodBill() {
-    document.getElementById("app").innerHTML = `<h2>🍕 Total Food: ₹${fTotal}</h2>`;
+// ================= BILLS =================
+function showGBill() {
+document.getElementById("app").innerHTML =
+`<h2>🛒 Groceries Total: ₹${gTotal}</h2>`;
+}
+
+function showFBill() {
+document.getElementById("app").innerHTML =
+`<h2>🍕 Food Total: ₹${fTotal}</h2>`;
+}
+
+// ================= TRANSFER =================
+function showTransfer() {
+document.getElementById("app").innerHTML = `
+<h2>💰 Money Transfer</h2>
+<input id="amt" placeholder="Amount">
+<input id="name" placeholder="Sender Name">
+<input id="pin" placeholder="PIN">
+
+<button onclick="transfer()">Send</button>
+
+<p id="result"></p>
+`;
 }
 
 function transfer() {
-    let amt = document.getElementById("amt").value;
-    let name = document.getElementById("name").value;
-    let time = new Date();
+let amt = document.getElementById("amt").value;
+let name = document.getElementById("name").value;
+let pin = document.getElementById("pin").value;
 
-    document.getElementById("res").innerText =
-        `₹${amt} sent by ${name} at ${time}`;
+if (pin === "9966") {
+document.getElementById("result").innerText =
+`₹${amt} transferred by ${name} at ${new Date()}`;
+} else {
+document.getElementById("result").innerText =
+"❌ Incorrect PIN";
+}
+}
+
+// ================= PAYMENTS =================
+function showPayments() {
+document.getElementById("app").innerHTML = `
+<h2>💳 Bill Payments</h2>
+
+<select id="appPay">
+<option>PhonePe</option>
+<option>Paytm</option>
+<option>Google Pay</option>
+</select>
+
+<input id="billAmt" placeholder="Amount">
+<input id="pin2" placeholder="PIN">
+
+<button onclick="payBill()">Pay</button>
+
+<p id="payRes"></p>
+`;
 }
 
 function payBill() {
-    let amt = document.getElementById("billAmt").value;
-    document.getElementById("billRes").innerText =
-        `Bill ₹${amt} paid successfully`;
+let amt = document.getElementById("billAmt").value;
+let pin = document.getElementById("pin2").value;
+
+if (pin === "9966") {
+document.getElementById("payRes").innerText =
+`₹${amt} Paid Successfully at ${new Date()}`;
+} else {
+document.getElementById("payRes").innerText =
+"❌ Wrong PIN";
+}
 }
 
+// ================= MOVIES =================
 function showMovies() {
-    document.getElementById("app").innerHTML = `
-    <h2>🎬 Movies</h2>
-    <ul>
-        <li>Kalki 2898AD</li>
-        <li>Salaar</li>
-        <li>Devara</li>
-    </ul>`;
+document.getElementById("app").innerHTML = `
+<h2>🎬 Movies</h2>
+<ul>
+<li>Kalki 2898AD</li>
+<li>Salaar</li>
+<li>Devara</li>
+<li>Guntur Karam</li>
+</ul>
+`;
 }
 
+// ================= SONGS =================
 function showSongs() {
-    document.getElementById("app").innerHTML = `
-    <h2>🎵 Songs</h2>
-    <ul>
-        <li>Peelings</li>
-        <li>Ayudha Pooja</li>
-        <li>Nenu Nuvvantu</li>
-    </ul>`;
+document.getElementById("app").innerHTML = `
+<h2>🎵 Songs</h2>
+<ul>
+<li>Peelings</li>
+<li>Ayudha Pooja</li>
+<li>Nenu Nuvvantu</li>
+<li>Halamathi Habibo</li>
+</ul>
+`;
 }
 
 </script>
