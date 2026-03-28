@@ -2,166 +2,122 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Nandu App Code Viewer</title>
+<title>Nandu Groceries App</title>
 
 <style>
     body {
-        font-family: monospace;
+        font-family: Arial;
         background: #0f172a;
-        color: #00ffcc;
+        color: white;
         text-align: center;
-        padding: 20px;
     }
 
     h1 {
         color: #38bdf8;
     }
 
-    button {
+    select, input, button {
         padding: 10px;
-        margin: 5px;
-        background: #1e293b;
-        color: white;
+        margin: 8px;
+    }
+
+    button {
+        background: #38bdf8;
         border: none;
         cursor: pointer;
     }
 
-    button:hover {
-        background: #38bdf8;
-        color: black;
+    .box {
+        background: #1e293b;
+        padding: 20px;
+        margin: 20px auto;
+        width: 300px;
+        border-radius: 10px;
     }
 
-    pre {
+    ul {
         text-align: left;
-        background: black;
-        padding: 20px;
-        border-radius: 10px;
-        overflow-x: auto;
-        margin-top: 20px;
     }
 </style>
-
-<script>
-function showCode(type) {
-
-    let code = "";
-
-    if (type === "groceries") {
-        code = `def groceries_billing():
-    categories = {
-        "Dresses": {
-            "colors": ["Red", "Blue", "Green"],
-            "types": ["Casual", "Formal"]
-        }
-    }
-
-    items = []
-
-    while True:
-        print("Categories:", categories.keys())
-        choice = input("Choose category: ")
-
-        item = input("Enter item name: ")
-        price = float(input("Enter price: "))
-
-        items.append((item, price))
-
-        cont = input("Continue? (y/n): ")
-        if cont != 'y':
-            break
-
-    total = sum(p for i, p in items)
-    print("Total:", total)
-`;
-    }
-
-    else if (type === "food") {
-        code = `def food_ordering():
-    menu = {"Pizza":150, "Burger":100}
-
-    orders = {}
-
-    while True:
-        print(menu)
-        item = input("Choose item: ")
-        qty = int(input("Quantity: "))
-
-        orders[item] = qty
-
-        cont = input("Continue? (y/n): ")
-        if cont != 'y':
-            break
-
-    total = sum(menu[i]*q for i,q in orders.items())
-    print("Total:", total)
-`;
-    }
-
-    else if (type === "money") {
-        code = `def payment_transfer():
-    amount = float(input("Enter amount: "))
-    name = input("Sender: ")
-    pin = input("Enter PIN: ")
-
-    if pin == "9966":
-        print("Transfer success")
-    else:
-        print("Failed")
-`;
-    }
-
-    else if (type === "bill") {
-        code = `def bill_payments():
-    amount = float(input("Enter amount: "))
-    app = input("Choose app: ")
-    print(f"Paid {amount} using {app}")
-`;
-    }
-
-    else if (type === "movies") {
-        code = `def show_movies():
-    movies = ["Kalki", "Salaar", "Devara"]
-    for m in movies:
-        print(m)
-`;
-    }
-
-    else if (type === "songs") {
-        code = `def show_songs():
-    songs = ["Peelings", "Ayudha Pooja"]
-    for s in songs:
-        print(s)
-`;
-    }
-
-    document.getElementById("codeBox").innerText = code;
-}
-</script>
 
 </head>
 
 <body>
 
-<h1>🎉 Multi-feature Nandu App (Code Viewer)</h1>
+<h1>🛒 Groceries Shopping</h1>
 
-<div>
-    <button onclick="showCode('groceries')">🛒 Groceries</button>
-    <button onclick="showCode('food')">🍕 Food</button>
-    <button onclick="showCode('money')">💰 Money</button>
-    <button onclick="showCode('bill')">💳 Bills</button>
-    <button onclick="showCode('movies')">🎬 Movies</button>
-    <button onclick="showCode('songs')">🎵 Songs</button>
+<div class="box">
+
+    <select id="category" onchange="loadItems()">
+        <option value="">Select Category</option>
+        <option value="dresses">Dresses</option>
+        <option value="saree">Saree</option>
+        <option value="electronics">Electronics</option>
+    </select>
+
+    <br>
+
+    <select id="items">
+        <option>Select Item</option>
+    </select>
+
+    <br>
+
+    <input type="number" id="price" placeholder="Enter Price">
+
+    <br>
+
+    <button onclick="addItem()">Add Item</button>
+
+    <ul id="list"></ul>
+
+    <h3>Total: ₹<span id="total">0</span></h3>
+
 </div>
 
-<pre id="codeBox">
-👉 Click any button to view Python code
-</pre>
+<script>
 
-<br>
+let total = 0;
 
-<a href="https://github.com/nandinipanyala2003/multi-feature-nandu-app" target="_blank">
-    <button>🚀 View GitHub Repo</button>
-</a>
+const data = {
+    dresses: ["Casual Dress", "Party Wear", "Formal Dress"],
+    saree: ["Silk Saree", "Cotton Saree", "Chiffon Saree"],
+    electronics: ["iPhone", "Samsung", "Laptop"]
+};
+
+function loadItems() {
+    let category = document.getElementById("category").value;
+    let items = document.getElementById("items");
+
+    items.innerHTML = "<option>Select Item</option>";
+
+    if (category && data[category]) {
+        data[category].forEach(item => {
+            let option = document.createElement("option");
+            option.text = item;
+            items.add(option);
+        });
+    }
+}
+
+function addItem() {
+    let item = document.getElementById("items").value;
+    let price = parseFloat(document.getElementById("price").value);
+
+    if (!item || isNaN(price)) {
+        alert("Enter valid details");
+        return;
+    }
+
+    let li = document.createElement("li");
+    li.innerText = `${item} - ₹${price}`;
+    document.getElementById("list").appendChild(li);
+
+    total += price;
+    document.getElementById("total").innerText = total;
+}
+
+</script>
 
 </body>
 </html>
