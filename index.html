@@ -2,143 +2,161 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Nandu App Interactive</title>
+<title>Nandu App Simulation</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
     body {
-        font-family: Arial;
-        background: #0f172a;
-        color: white;
-        text-align: center;
+        font-family: monospace;
+        background: black;
+        color: #00ffcc;
+        padding: 20px;
     }
 
     h1 {
+        text-align: center;
         color: #38bdf8;
-        margin-top: 20px;
     }
 
-    .buttons {
-        margin: 20px;
-    }
-
-    button {
-        padding: 12px 20px;
-        margin: 10px;
-        border: none;
-        border-radius: 10px;
-        background: #38bdf8;
-        cursor: pointer;
-        font-weight: bold;
-    }
-
-    button:hover {
-        background: #0ea5e9;
-    }
-
-    .content {
-        margin: 20px auto;
-        width: 80%;
+    .menu button {
+        margin: 5px;
+        padding: 10px;
         background: #1e293b;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .menu button:hover {
+        background: #38bdf8;
+        color: black;
+    }
+
+    .terminal {
+        margin-top: 20px;
         padding: 20px;
-        border-radius: 10px;
-        text-align: left;
+        background: #000;
+        border: 1px solid #00ffcc;
+        min-height: 300px;
         white-space: pre-line;
     }
 </style>
 
 <script>
-function showContent(type) {
-    let content = "";
+function groceriesFlow() {
+document.getElementById("screen").innerText = `
+🛒 Groceries Shopping Started!
 
-    if (type === "groceries") {
-        content = `
-🛒 GROCERIES MODULE
+➡️ Categories:
+1. Dresses
+2. Saree
+3. Jewellery
+4. House Products
+5. Electronic Gadgets
 
-Categories:
-- Dresses (Casual, Formal, Party Wear)
-- Saree (Silk, Cotton, Chiffon)
-- Jewellery (Necklace, Earrings)
-- Electronics (Phones, Laptops)
+➡️ User selects: Dresses
 
-User can:
-✔ Select category
-✔ Choose type & color
-✔ Enter price
-✔ Generate bill
-        `;
-    }
+👗 Available types:
+Casual, Formal, Party Wear, Embroidery, Ghagra Choli
 
-    else if (type === "food") {
-        content = `
-🍕 FOOD ORDERING
+➡️ User selects: Party Wear
+
+🌈 Available colors:
+Red, Blue, Green, Yellow, Black
+
+➡️ User selects: Red
+
+📝 Enter item name: Red Party Dress
+💰 Price: Rs 1200
+
+✅ Added: Red Party Dress (Dresses, Type: Party Wear, Color: Red)
+
+➡️ More items can be added...
+➡️ Finally bill generated:
+
+1. Red Party Dress - Rs 1200
+
+✅ Total: Rs 1200
+`;
+}
+
+function foodFlow() {
+document.getElementById("screen").innerText = `
+🍕 Food Ordering Started!
 
 Menu:
-- Pizza ₹150
-- Burger ₹100
-- Samosa ₹30
-- Ice Cream (Vanilla, Chocolate)
+1. Pizza - Rs 150
+2. Burger - Rs 100
+3. Samosa - Rs 30
 
-User can:
-✔ Select item
-✔ Enter quantity
-✔ View total bill
-        `;
-    }
+➡️ User selects: Pizza
+📦 Quantity: 2
 
-    else if (type === "money") {
-        content = `
-💰 MONEY TRANSFER
+✅ Added 2 x Pizza
 
-Features:
-✔ Enter amount
-✔ Enter recipient
-✔ Secure PIN (9966)
-✔ Timestamp generated
+➡️ Final Bill:
 
-Example:
-Rs 500 transferred successfully
-        `;
-    }
+Pizza x 2 = Rs 300
 
-    else if (type === "bill") {
-        content = `
-💳 BILL PAYMENTS
+✅ Total: Rs 300
+`;
+}
 
-Apps:
-- PhonePe
-- Paytm
-- Google Pay
+function moneyFlow() {
+document.getElementById("screen").innerText = `
+💰 Money Transfer
 
-User can:
-✔ Select platform
-✔ Enter biller ID
-✔ Pay securely using PIN
-        `;
-    }
+💵 Amount: Rs 500
+👤 Recipient: user123
+✍️ Sender: Nandini
+🔐 PIN: ****
 
-    else if (type === "movies") {
-        content = `
-🎬 MOVIES
+✅ Transfer Successful!
 
-- Kalki 2898AD
-- Salaar
-- Devara
-- Guntur Karam
-        `;
-    }
+⏰ Date & Time:
+2026-03-28 12:30:00
+`;
+}
 
-    else if (type === "songs") {
-        content = `
-🎵 SONGS
+function billFlow() {
+document.getElementById("screen").innerText = `
+💳 Bill Payment
 
-- Peelings (Pushpa 2)
-- Ayudha Pooja
-- Nenu Nuvvantu
-        `;
-    }
+Platforms:
+1. PhonePe
+2. Paytm
+3. Google Pay
 
-    document.getElementById("display").innerText = content;
+➡️ Selected: PhonePe
+
+💰 Amount: Rs 800
+📋 Biller ID: EB12345
+
+🔐 PIN Entered
+
+✅ Payment Successful!
+`;
+}
+
+function moviesFlow() {
+document.getElementById("screen").innerText = `
+🎬 Latest Movies:
+
+1. Kalki 2898AD
+2. Salaar
+3. Devara
+4. Guntur Karam
+`;
+}
+
+function songsFlow() {
+document.getElementById("screen").innerText = `
+🎵 Latest Songs:
+
+1. Peelings - Pushpa 2
+2. Ayudha Pooja - Devara
+3. Nenu Nuvvantu - Orange
+`;
 }
 </script>
 
@@ -146,25 +164,25 @@ User can:
 
 <body>
 
-<h1>🎉 Multi-feature Nandu App</h1>
+<h1>🎉 Multi-feature Nandu App (Simulation)</h1>
 
-<div class="buttons">
-    <button onclick="showContent('groceries')">🛒 Groceries</button>
-    <button onclick="showContent('food')">🍕 Food</button>
-    <button onclick="showContent('money')">💰 Money Transfer</button>
-    <button onclick="showContent('bill')">💳 Bill Payment</button>
-    <button onclick="showContent('movies')">🎬 Movies</button>
-    <button onclick="showContent('songs')">🎵 Songs</button>
+<div class="menu">
+    <button onclick="groceriesFlow()">🛒 Groceries</button>
+    <button onclick="foodFlow()">🍕 Food</button>
+    <button onclick="moneyFlow()">💰 Money</button>
+    <button onclick="billFlow()">💳 Bills</button>
+    <button onclick="moviesFlow()">🎬 Movies</button>
+    <button onclick="songsFlow()">🎵 Songs</button>
 </div>
 
-<div id="display" class="content">
-👉 Click any feature above to see details
+<div id="screen" class="terminal">
+👉 Click any feature to see how Python app works
 </div>
 
 <br>
 
 <a href="https://github.com/nandinipanyala2003/multi-feature-nandu-app" target="_blank">
-    <button>🚀 View on GitHub</button>
+    <button>🚀 View GitHub Repo</button>
 </a>
 
 </body>
